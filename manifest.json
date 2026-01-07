@@ -1,0 +1,43 @@
+{
+  "name": "Sawfish App Store",
+  "short_name": "App Store",
+  "description": "A modern, school-safe app store with web apps and games",
+  "version": "2.0.0",
+  "manifest_version": 3,
+  "id": "/appstore/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0b0d10",
+  "theme_color": "#0b0d10",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["utilities", "entertainment", "games"],
+  "shortcuts": [
+    {
+      "name": "Browse Apps",
+      "short_name": "Apps",
+      "description": "Browse available apps",
+      "url": "/?section=apps"
+    },
+    {
+      "name": "Play Games",
+      "short_name": "Games",
+      "description": "Play web games",
+      "url": "/?section=games"
+    }
+  ]
+}
