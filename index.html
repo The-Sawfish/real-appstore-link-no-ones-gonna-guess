@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="description" content="Sawfish App Store - A curated collection of web apps and games">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Sawfish Store">
+    <title>Sawfish App Store</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="icons/logo.png">
+    <link rel="apple-touch-icon" href="icons/logo.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+</head>
+<body class="loading">
+    <div id="notification" class="notification hidden"></div>
+
+    <!-- Install Screen -->
+    <div data-screen="install" class="install-screen">
+        <div class="install-content">
+            <div class="install-icon">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100" height="100" rx="20" fill="#1a1a2e"/>
+                    <path d="M30 70V40L50 25L70 40V70L50 85L30 70Z" stroke="#00d4ff" stroke-width="3" fill="none"/>
+                    <path d="M50 85V55" stroke="#00d4ff" stroke-width="3"/>
+                    <path d="M30 70H70" stroke="#00d4ff" stroke-width="3"/>
+                </svg>
+            </div>
+            <h1 class="install-title">Sawfish App Store</h1>
+            <p class="install-subtitle">Discover and access web apps instantly</p>
+            <p class="install-desc">Install our PWA for the best experience. Access all your favorite apps offline and enjoy native app-like features.</p>
+            <div class="install-features">
+                <div class="feature">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    <span>Secure & Private</span>
+                </div>
+                <div class="feature">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    <span>Offline Access</span>
+                </div>
+                <div class="feature">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                        <line x1="12" y1="18" x2="12.01" y2="18"/>
+                    </svg>
+                    <span>Mobile Friendly</span>
+                </div>
+            </div>
+            <button id="install-btn" class="btn primary-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L12 16M12 2L8 6M12 2L16 6"/>
+                    <path d="M4 18H9"/>
+                    <path d="M4 18H20"/>
+                </svg>
+                <span class="btn-text">Install App</span>
+            </button>
+            <p class="install-hint">Tap the share button and select "Add to Home Screen"</p>
+            <p id="install-date" class="install-date"></p>
+        </div>
+    </div>
+
+    <!-- Main App Screen -->
+    <div data-screen="app" class="app-screen hidden">
+        <!-- Sidebar Navigation -->
+        <nav id="sidebar-nav" class="sidebar-nav">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg viewBox="0 0 40 40" fill="none">
+                        <rect width="40" height="40" rx="8" fill="#00d4ff"/>
+                        <path d="M10 28V16L20 8L30 16V28L20 34L10 28Z" stroke="#0a0a0f" stroke-width="2" fill="none"/>
+                    </svg>
+                    <span class="logo-text">Sawfish</span>
+                </div>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="nav-items">
+                <button class="nav-item active" data-tab="home">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    <span>Home</span>
+                </button>
+                <button class="nav-item" data-tab="games">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                        <polyline points="2 17 12 22 22 17"/>
+                        <polyline points="2 12 12 17 22 12"/>
+                    </svg>
+                    <span>Games</span>
+                </button>
+                <button class="nav-item" data-tab="apps">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/>
+                        <rect x="9" y="9" width="6" height="6"/>
+                        <line x1="9" y1="1" x2="9" y2="4"/>
+                        <line x1="15" y1="1" x2="15" y2="4"/>
+                        <line x1="9" y1="20" x2="9" y2="23"/>
+                        <line x1="15" y1="20" x2="15" y2="23"/>
+                        <line x1="20" y1="9" x2="23" y2="9"/>
+                        <line x1="20" y1="14" x2="23" y2="14"/>
+                        <line x1="1" y1="9" x2="4" y2="9"/>
+                        <line x1="1" y1="14" x2="4" y2="14"/>
+                    </svg>
+                    <span>Apps</span>
+                </button>
+                <button class="nav-item" data-tab="os">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                    <span>OS</span>
+                </button>
+                <button class="nav-item" data-tab="tools">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                    <span>Tools</span>
+                </button>
+                <button class="nav-item" data-tab="updates">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="23 4 23 10 17 10"/>
+                        <polyline points="1 20 1 14 7 14"/>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                    </svg>
+                    <span>Updates</span>
+                </button>
+            </div>
+            <div class="sidebar-footer">
+                <button class="nav-item" data-tab="profile">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>Profile</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home Page -->
+            <div data-page="home" class="page visible">
+                <section class="hero-section">
+                    <div class="hero-content">
+                        <h1>Welcome to Sawfish App Store</h1>
+                        <p>Discover amazing web apps, games, and operating systems</p>
+                    </div>
+                </section>
+                <section class="featured-section">
+                    <h2>Featured</h2>
+                    <div class="featured-grid">
+                        <div class="featured-card" data-app="minecraft">
+                            <img src="icons/minecraft.png" alt="Minecraft Web" class="featured-icon">
+                            <div class="featured-info">
+                                <h3>Minecraft Web</h3>
+                                <p>The iconic sandbox building game, now in your browser</p>
+                            </div>
+                        </div>
+                        <div class="featured-card" data-app="sandboxels">
+                            <img src="icons/sandboxels.png" alt="Sandboxels" class="featured-icon">
+                            <div class="featured-info">
+                                <h3>Sandboxels</h3>
+                                <p>Falling sand physics simulation with over 500 elements</p>
+                            </div>
+                        </div>
+                        <div class="featured-card" data-app="run3">
+                            <img src="icons/run3.png" alt="Run 3" class="featured-icon">
+                            <div class="featured-info">
+                                <h3>Run 3</h3>
+                                <p>Endless space runner with gravity-shifting tunnel gameplay</p>
+                            </div>
+                        </div>
+                        <div class="featured-card" data-app="retrobowl">
+                            <img src="icons/retrobowl.png" alt="Retro Bowl" class="featured-icon">
+                            <div class="featured-info">
+                                <h3>Retro Bowl</h3>
+                                <p>Classic American football game with retro pixel graphics</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="quick-access-section">
+                    <h2>Quick Access</h2>
+                    <div class="app-grid">
+                        <div class="app-card" data-app="hack">
+                            <div class="app-icon">
+                                <img src="icons/hack.png" alt="Hack Stuff">
+                            </div>
+                            <div class="app-info">
+                                <h3 class="app-name">Hack Stuff</h3>
+                                <p class="app-developer">Sawfish Developer Group</p>
+                                <div class="app-rating">
+                                    <span class="rating-value" data-avg-rating="hack">—</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="app-card" data-app="portal">
+                            <div class="app-icon">
+                                <img src="icons/game-portal.png" alt="Game Portal">
+                            </div>
+                            <div class="app-info">
+                                <h3 class="app-name">Game Portal</h3>
+                                <p class="app-developer">Sawfish Developer Group</p>
+                                <div class="app-rating">
+                                    <span class="rating-value" data-avg-rating="portal">—</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="app-card" data-app="chat">
+                            <div class="app-icon">
+                                <img src="icons/chat.png" alt="Chat App">
+                            </div>
+                            <div class="app-info">
+                                <h3 class="app-name">Chat App</h3>
+                                <p class="app-developer">Sawfish Developer Group</p>
+                                <div class="app-rating">
+                                    <span class="rating-value" data-avg-rating="chat">—</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="app-card" data-app="call">
+                            <div class="app-icon">
+                                <img src="icons/call.png" alt="Call App">
+                            </div>
+                            <div class="app-info">
+                                <h3 class="app-name">Call App</h3>
+                                <p class="app-developer">Sawfish Developer Group</p>
+                                <div class="app-rating">
+                                    <span class="rating-value" data-avg-rating="call">—</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="app-card" data-app="circle">
+                            <div class="app-icon">
+                                <img src="icons/circle.png" alt="Draw a Circle">
+                            </div>
+                            <div class="app-info">
+                                <h3 class="app-name">Draw a Circle</h3>
+                                <p class="app-developer">Mylic App</p>
+                                <div class="app-rating">
+                                    <span class="rating-value" data-avg-rating="circle">—</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="app-card" data-app="2048">
+                            <div class="app-icon">
+                                <img src="icons/2048.png" alt="2048">
+                            </div>
+                            <div class="app-info">
+                                <h3 class="app-name">2048</h3>
+                                <p class="app-developer">Sawfish Developer Group</p>
+                                <div class="app-rating">
+                                    <span class="rating-value" data-avg-rating="2048">—</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="app-card" data-app="blockblast">
+                            <div class="app-icon">
+                                <img src="icons/blockblast.png" alt="Block Blast">
+                            </div>
+                            <div class="app-info">
+                                <h3 class="app-name">Block Blast</h3>
+                                <p class="app-developer">Sawfish Developer Group</p>
+                                <div class="app-rating">
+                                    <span class="rating-value" data-avg-rating="blockblast">—</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="app-card" data-app="paperio2">
+                            <div class="app-icon">
+                                <img src="icons/paperio2.png" alt="Paper.io 2">
+                            </div>
+                            <div class="app-info">
+                                <h3 class="app-name">Paper.io 2</h3>
+                                <p class="app-developer">Sawfish Developer Group</p>
+                                <div class="app-rating">
+                                    <span class="rating-value" data-avg-rating="paperio2">—</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="app-card" data-app="monkeytype">
+                            <div class="app-icon">
+                                <img src="icons/monkeytype.png" alt="MonkeyType">
+                            </div>
+                            <div class="app-info">
+                                <h3 class="app-name">MonkeyType</h3>
+                                <p class="app-developer">Miodec</p>
+                                <div class="app-rating">
+                                    <span class="rating-value" data-avg-rating="monkeytype">—</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="app-card" data-app="bobtherobber">
+                            <div class="app-icon">
+                                <img src="icons/bobtherobber.png" alt="Bob the Robber">
+                            </div>
+                            <div class="app-info">
+                                <h3 class="app-name">Bob the Robber</h3>
+                                <p class="app-developer">Bob the Robber Team</p>
+                                <div class="app-rating">
+                                    <span class="rating-value" data-avg-rating="bobtherobber">—</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Games Page -->
+            <div data-page="games" class="page">
+                <div class="page-header">
+                    <h1>Games</h1>
+                </div>
+                <div class="category-tabs">
+                    <button class="category-tab active" data-category="all">All</button>
+                    <button class="category-tab" data-category="action">Action</button>
+                    <button class="category-tab" data-category="puzzle">Puzzle</button>
+                    <button class="category-tab" data-category="sports">Sports</button>
+                </div>
+                <div class="app-grid">
+                    <div class="app-card" data-app="minecraft">
+                        <div class="app-icon">
+                            <img src="icons/minecraft.png" alt="Minecraft Web">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">Minecraft Web</h3>
+                            <p class="app-developer">Zardoy</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="minecraft">—</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-card" data-app="run3">
+                        <div class="app-icon">
+                            <img src="icons/run3.png" alt="Run 3">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">Run 3</h3>
+                            <p class="app-developer">Sawfish Developer Group</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="run3">—</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-card" data-app="retrobowl">
+                        <div class="app-icon">
+                            <img src="icons/retrobowl.png" alt="Retro Bowl">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">Retro Bowl</h3>
+                            <p class="app-developer">Sawfish Developer Group</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="retrobowl">—</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-card" data-app="paperio2">
+                        <div class="app-icon">
+                            <img src="icons/paperio2.png" alt="Paper.io 2">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">Paper.io 2</h3>
+                            <p class="app-developer">Sawfish Developer Group</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="paperio2">—</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-card" data-app="sandboxels">
+                        <div class="app-icon">
+                            <img src="icons/sandboxels.png" alt="Sandboxels">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">Sandboxels</h3>
+                            <p class="app-developer">R74n</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="sandboxels">—</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-card" data-app="circle">
+                        <div class="app-icon">
+                            <img src="icons/circle.png" alt="Draw a Circle">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">Draw a Circle</h3>
+                            <p class="app-developer">Mylic App</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="circle">—</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-card" data-app="blockblast">
+                        <div class="app-icon">
+                            <img src="icons/blockblast.png" alt="Block Blast">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">Block Blast</h3>
+                            <p class="app-developer">Sawfish Developer Group</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="blockblast">—</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-card" data-app="2048">
+                        <div class="app-icon">
+                            <img src="icons/2048.png" alt="2048">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">2048</h3>
+                            <p class="app-developer">Sawfish Developer Group</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="2048">—</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-card" data-app="bobtherobber">
+                        <div class="app-icon">
+                            <img src="icons/bobtherobber.png" alt="Bob the Robber">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">Bob the Robber</h3>
+                            <p class="app-developer">Bob the Robber Team</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="bobtherobber">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Apps Page -->
+            <div data-page="apps" class="page">
+                <div class="page-header">
+                    <h1>Apps</h1>
+                </div>
+                <div class="app-grid">
+                    <div class="app-card" data-app="hack">
+                        <div class="app-icon">
+                            <img src="icons/hack.png" alt="Hack Stuff">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">Hack Stuff</h3>
+                            <p class="app-developer">Sawfish Developer Group</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="hack">—</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-card" data-app="portal">
+                        <div class="app-icon">
+                            <img src="icons/game-portal.png" alt="Game Portal">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">Game Portal</h3>
+                            <p class="app-developer">Sawfish Developer Group</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="portal">—</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-card" data-app="chat">
+                        <div class="app-icon">
+                            <img src="icons/chat.png" alt="Chat App">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">Chat App</h3>
+                            <p class="app-developer">Sawfish Developer Group</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="chat">—</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-card" data-app="call">
+                        <div class="app-icon">
+                            <img src="icons/call.png" alt="Call App">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">Call App</h3>
+                            <p class="app-developer">Sawfish Developer Group</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="call">—</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-card" data-app="monkeytype">
+                        <div class="app-icon">
+                            <img src="icons/monkeytype.png" alt="MonkeyType">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">MonkeyType</h3>
+                            <p class="app-developer">Miodec</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="monkeytype">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OS Page -->
+            <div data-page="os" class="page">
+                <div class="page-header">
+                    <h1>Operating Systems</h1>
+                </div>
+                <div class="app-grid">
+                    <div class="app-card" data-app="novaos">
+                        <div class="app-icon">
+                            <img src="icons/novaos.png" alt="NovaOS">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">NovaOS</h3>
+                            <p class="app-developer">RunNova</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="novaos">—</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-card" data-app="winripen">
+                        <div class="app-icon">
+                            <img src="icons/winripen.png" alt="WinRipen">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">WinRipen</h3>
+                            <p class="app-developer">RipenOS Team</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="winripen">—</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-card" data-app="plutoos">
+                        <div class="app-icon">
+                            <img src="icons/plutoos.png" alt="PlutoOS">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">PlutoOS</h3>
+                            <p class="app-developer">Zeon</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="plutoos">—</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-card" data-app="ripenos">
+                        <div class="app-icon">
+                            <img src="icons/ripenos.png" alt="RipenOS">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">RipenOS</h3>
+                            <p class="app-developer">RipenOS Team</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="ripenos">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tools Page -->
+            <div data-page="tools" class="page">
+                <div class="page-header">
+                    <h1>Developer Tools</h1>
+                </div>
+                <div class="app-grid">
+                    <div class="app-card" data-app="hack">
+                        <div class="app-icon">
+                            <img src="icons/hack.png" alt="Hack Stuff">
+                        </div>
+                        <div class="app-info">
+                            <h3 class="app-name">Hack Stuff</h3>
+                            <p class="app-developer">Sawfish Developer Group</p>
+                            <div class="app-rating">
+                                <span class="rating-value" data-avg-rating="hack">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Updates Page -->
+            <div data-page="updates" class="page">
+                <div class="page-header">
+                    <h1>Updates</h1>
+                </div>
+                <div class="update-content">
+                    <div class="update-status-card">
+                        <div class="update-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                        </div>
+                        <div class="update-info">
+                            <h3>Sawfish App Store</h3>
+                            <p id="update-status">Checking for updates...</p>
+                        </div>
+                        <button id="update-action" class="btn secondary-btn">
+                            <span class="btn-text">Update</span>
+                        </button>
+                    </div>
+                    <div class="changelog">
+                        <h3>What's New</h3>
+                        <div class="changelog-item">
+                            <span class="version-badge">v2.0.0</span>
+                            <p>Major redesign with dark mode and improved navigation</p>
+                        </div>
+                        <div class="changelog-item">
+                            <span class="version-badge">v1.5.0</span>
+                            <p>Added new games and improved performance</p>
+                        </div>
+                        <div class="changelog-item">
+                            <span class="version-badge">v1.0.0</span>
+                            <p>Initial release with core features</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Page -->
+            <div data-page="profile" class="page">
+                <div class="page-header">
+                    <h1>Profile</h1>
+                </div>
+                <div id="user-profile-section" class="user-profile hidden">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <div class="profile-info">
+                            <h2 id="user-display-name">User</h2>
+                            <p>Sawfish Store Member</p>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat-card">
+                            <span class="stat-value">0</span>
+                            <span class="stat-label">Apps Rated</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value">0</span>
+                            <span class="stat-label">Comments</span>
+                        </div>
+                    </div>
+                    <button id="user-logout-btn" class="btn danger-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                        <span>Logout</span>
+                    </button>
+                </div>
+                <div id="auth-buttons-section" class="auth-buttons">
+                    <p>Sign in to rate apps and save your preferences</p>
+                    <button id="login-button" class="btn primary-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                            <polyline points="10 17 15 12 10 7"/>
+                            <line x1="15" y1="12" x2="3" y2="12"/>
+                        </svg>
+                        <span>Login</span>
+                    </button>
+                    <button id="signup-button" class="btn secondary-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="8.5" cy="7" r="4"/>
+                            <line x1="20" y1="8" x2="20" y2="14"/>
+                            <line x1="23" y1="11" x2="17" y2="11"/>
+                        </svg>
+                        <span>Sign Up</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- App Detail Overlay -->
+    <div id="app-overlay" class="app-overlay hidden">
+        <div class="overlay-content">
+            <button id="close-expanded" class="close-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+            <div class="expanded-header">
+                <img id="expanded-img" src="" alt="" class="expanded-icon">
+                <div class="expanded-title-section">
+                    <h2 id="expanded-title"></h2>
+                    <p id="expanded-developer"></p>
+                    <div class="expanded-rating">
+                        <div id="expanded-stars" class="stars"></div>
+                        <span id="expanded-rating-text"></span>
+                        <span id="expanded-rating-count"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="expanded-actions">
+                <a id="expanded-play-btn" href="#" target="_blank" class="btn primary-btn large-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 3 19 12 5 21 5 3"/>
+                    </svg>
+                    <span>Open App</span>
+                </a>
+            </div>
+            <div class="expanded-section">
+                <h3>About</h3>
+                <p id="about-main"></p>
+            </div>
+            <div class="expanded-section">
+                <h3>Rate this app</h3>
+                <div class="rating-input">
+                    <div id="star-rating-input" class="star-rating">
+                        <button class="star-btn" data-rating="1">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                            </svg>
+                        </button>
+                        <button class="star-btn" data-rating="2">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                            </svg>
+                        </button>
+                        <button class="star-btn" data-rating="3">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                            </svg>
+                        </button>
+                        <button class="star-btn" data-rating="4">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                            </svg>
+                        </button>
+                        <button class="star-btn" data-rating="5">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <button id="expanded-rate-btn" class="btn secondary-btn" disabled>Submit Rating</button>
+                </div>
+            </div>
+            <div class="expanded-section">
+                <h3>Ratings Distribution</h3>
+                <div class="rating-bars">
+                    <div class="rating-bar-row">
+                        <span class="rating-label">5 stars</span>
+                        <div class="rating-bar">
+                            <div class="rating-bar-fill" data-rating="5"></div>
+                        </div>
+                        <span id="count-5" class="rating-count">0</span>
+                    </div>
+                    <div class="rating-bar-row">
+                        <span class="rating-label">4 stars</span>
+                        <div class="rating-bar">
+                            <div class="rating-bar-fill" data-rating="4"></div>
+                        </div>
+                        <span id="count-4" class="rating-count">0</span>
+                    </div>
+                    <div class="rating-bar-row">
+                        <span class="rating-label">3 stars</span>
+                        <div class="rating-bar">
+                            <div class="rating-bar-fill" data-rating="3"></div>
+                        </div>
+                        <span id="count-3" class="rating-count">0</span>
+                    </div>
+                    <div class="rating-bar-row">
+                        <span class="rating-label">2 stars</span>
+                        <div class="rating-bar">
+                            <div class="rating-bar-fill" data-rating="2"></div>
+                        </div>
+                        <span id="count-2" class="rating-count">0</span>
+                    </div>
+                    <div class="rating-bar-row">
+                        <span class="rating-label">1 star</span>
+                        <div class="rating-bar">
+                            <div class="rating-bar-fill" data-rating="1"></div>
+                        </div>
+                        <span id="count-1" class="rating-count">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rating Modal -->
+    <div id="rating-modal" class="modal hidden">
+        <div class="modal-content">
+            <button id="close-rating" class="modal-close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+            <h2 id="rating-app-name">Rate this app</h2>
+            <div class="modal-rating">
+                <div class="star-rating">
+                    <button class="star-btn" data-rating="1">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                    </button>
+                    <button class="star-btn" data-rating="2">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                    </button>
+                    <button class="star-btn" data-rating="3">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                    </button>
+                    <button class="star-btn" data-rating="4">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                    </button>
+                    <button class="star-btn" data-rating="5">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <button id="submit-rating" class="btn primary-btn" disabled>Submit</button>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal hidden">
+        <div class="modal-content">
+            <button id="close-login" class="modal-close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+            <h2>Welcome Back</h2>
+            <p class="modal-subtitle">Sign in to your account</p>
+            <div class="modal-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password">
+                </div>
+                <button id="login-submit" class="btn primary-btn full-width">Sign In</button>
+            </div>
+            <p class="modal-footer">Don't have an account? <a id="switch-to-signup" href="#">Sign up</a></p>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signup-modal" class="modal hidden">
+        <div class="modal-content">
+            <button id="close-signup" class="modal-close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+            <h2>Create Account</h2>
+            <p class="modal-subtitle">Join Sawfish App Store today</p>
+            <div class="modal-form">
+                <div class="form-group">
+                    <label for="signup-name">Name</label>
+                    <input type="text" id="signup-name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" placeholder="Create a password">
+                </div>
+                <button id="signup-submit" class="btn primary-btn full-width">Create Account</button>
+            </div>
+            <p class="modal-footer">Already have an account? <a id="switch-to-login" href="#">Sign in</a></p>
+        </div>
+    </div>
+
+    <!-- Developer Login Modal -->
+    <div id="developer-login-modal" class="modal hidden">
+        <div class="modal-content">
+            <button id="close-developer-login" class="modal-close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+            <h2>Developer Login</h2>
+            <p class="modal-subtitle">Access the developer dashboard</p>
+            <div class="modal-form">
+                <div class="form-group">
+                    <label for="developer-username">Username</label>
+                    <input type="text" id="developer-username" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="developer-password">Password</label>
+                    <input type="password" id="developer-password" placeholder="Enter password">
+                </div>
+                <p id="developer-error" class="error-message"></p>
+                <button id="developer-login-submit" class="btn primary-btn full-width">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Developer Dashboard Modal -->
+    <div id="developer-dashboard" class="modal hidden">
+        <div class="modal-content large-modal">
+            <button id="close-developer-dashboard" class="modal-close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+            <h2>Developer Dashboard</h2>
+            <div class="dashboard-stats">
+                <div class="dashboard-stat">
+                    <span id="stat-total-apps" class="stat-value">0</span>
+                    <span class="stat-label">Total Apps</span>
+                </div>
+                <div class="dashboard-stat">
+                    <span id="stat-total-ratings" class="stat-value">0</span>
+                    <span class="stat-label">Total Ratings</span>
+                </div>
+                <div class="dashboard-stat">
+                    <span id="stat-avg-rating" class="stat-value">—</span>
+                    <span class="stat-label">Avg Rating</span>
+                </div>
+                <div class="dashboard-stat">
+                    <span id="stat-total-comments" class="stat-value">0</span>
+                    <span class="stat-label">Comments</span>
+                </div>
+            </div>
+            <div class="dashboard-section">
+                <h3>Your Apps</h3>
+                <table class="apps-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>ID</th>
+                            <th>Ratings</th>
+                            <th>Avg</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="developer-apps-list">
+                    </tbody>
+                </table>
+            </div>
+            <div class="dashboard-section">
+                <h3>Submit New App</h3>
+                <div class="modal-form">
+                    <div class="form-group">
+                        <label for="app-name">App Name</label>
+                        <input type="text" id="app-name" placeholder="Enter app name">
+                    </div>
+                    <div class="form-group">
+                        <label for="app-url">App URL</label>
+                        <input type="url" id="app-url" placeholder="https://example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="app-description">Description</label>
+                        <textarea id="app-description" placeholder="Describe your app" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="app-category">Category</label>
+                        <select id="app-category">
+                            <option value="game">Game</option>
+                            <option value="app">App</option>
+                            <option value="os">Operating System</option>
+                            <option value="tool">Tool</option>
+                        </select>
+                    </div>
+                    <button id="submit-app" class="btn primary-btn">Submit App</button>
+                </div>
+            </div>
+            <div class="dashboard-section">
+                <h3>Leave a Comment</h3>
+                <div class="form-group">
+                    <textarea id="comment-text" placeholder="Write your comment" rows="3"></textarea>
+                </div>
+                <button id="submit-comment" class="btn secondary-btn">Post Comment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Popup -->
+    <div id="welcome-popup" class="welcome-popup hidden">
+        <div class="welcome-content">
+            <div class="welcome-icon">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100" height="100" rx="20" fill="#1a1a2e"/>
+                    <path d="M30 70V40L50 25L70 40V70L50 85L30 70Z" stroke="#00d4ff" stroke-width="3" fill="none"/>
+                    <path d="M50 85V55" stroke="#00d4ff" stroke-width="3"/>
+                    <path d="M30 70H70" stroke="#00d4ff" stroke-width="3"/>
+                </svg>
+            </div>
+            <h2>Welcome to Sawfish App Store!</h2>
+            <p>We're glad you're here. Explore our collection of web apps and games, or dive into a browser-based operating system.</p>
+            <div class="welcome-tips">
+                <div class="tip">
+                    <span class="tip-number">1</span>
+                    <span>Browse categories using the sidebar</span>
+                </div>
+                <div class="tip">
+                    <span class="tip-number">2</span>
+                    <span>Click any app to see details and ratings</span>
+                </div>
+                <div class="tip">
+                    <span class="tip-number">3</span>
+                    <span>Sign in to rate apps and save preferences</span>
+                </div>
+            </div>
+            <button id="welcome-continue" class="btn primary-btn">Get Started</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
